@@ -18,11 +18,22 @@ reg add "HKEY_CURRENT_USER\Software\Microsoft\Command Processor" /v AutoRun /t R
 #Disable Powershell v2
 Disable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2Root
 
+#Set PowerShell Constrained Language Mode
+#https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/
+$ExecutionContext.SessionState.LanguageMode = "ConstrainedLanguage"
+
 #Enable DEP
 BCDEDIT /set "{current}" nx OptOut
 
 #Disable TCP Timestamps
 netsh int tcp set global timestamps=disabled
+
+#Windows 10 Defender Configuration Files
+mkdir "C:\temp\Windows Defender"; Copy-Item -Path .\Files\Windows-Defender\* -Destination C:\temp\"Windows Defender"\ -Force -Recurse -ErrorAction SilentlyContinue
+
+#Enable Windows Defender Application Control
+#https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/select-types-of-rules-to-create
+Set-RuleOption -FilePath "C:\temp\Windows Defender\WDAC_V1_Enforced.xml" -Option 0
 
 #GPO Configurations
 $gposdir = "$(Get-Location)\Files\GPOs"
