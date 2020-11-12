@@ -29,6 +29,7 @@ REG ADD  “HKLM\Software\policies\Microsoft\Windows NT\DNSClient” /v ” Enab
 
 #Enable DEP
 BCDEDIT /set "{current}" nx OptOut
+Set-Processmitigation -System -Enable DEP
 
 #Disable TCP Timestamps
 netsh int tcp set global timestamps=disabled
