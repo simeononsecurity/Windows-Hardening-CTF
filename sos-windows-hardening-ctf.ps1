@@ -31,6 +31,12 @@ Set-ItemProperty -Path "HKLM:\Software\policies\Microsoft\Windows NT\DNSClient" 
 BCDEDIT /set "{current}" nx OptOut
 Set-Processmitigation -System -Enable DEP
 
+#Remove WSMan listeners
+Get-ChildItem WSMan:\Localhost\listener | Where-Object -Property Keys -eq "Transport=HTTP" | Remove-Item -Recurse
+Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
+#Disable the WSMan Service
+Set-Service -Name "WinRM" -StartupType Disabled -Status Stopped
+
 #Windows Defender Configuration Files
 mkdir "C:\temp\Windows Defender"; Copy-Item -Path .\Files\"Windows Defender Configuration Files"\* -Destination C:\temp\"Windows Defender"\ -Force -Recurse -ErrorAction SilentlyContinue
 
