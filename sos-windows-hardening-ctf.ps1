@@ -25,8 +25,7 @@ $ExecutionContext.SessionState.LanguageMode = "ConstrainedLanguage"
 #Disable LLMNR
 #https://www.blackhillsinfosec.com/how-to-disable-llmnr-why-you-want-to/
 New-Item -Path "HKLM:\Software\policies\Microsoft\Windows NT\" -Name "DNSClient"
-Set-ItemProperty -Path "HKLM:\Software\policies\Microsoft\Windows NT\DNSClient" -Name EnableMulticast -Type "DWORD" -Value 0 -Force
-
+Set-ItemProperty -Path "HKLM:\Software\policies\Microsoft\Windows NT\DNSClient" -Name "EnableMulticast" -Type "DWORD" -Value 0 -Force
 #Enable DEP
 BCDEDIT /set "{current}" nx OptOut
 Set-Processmitigation -System -Enable DEP
