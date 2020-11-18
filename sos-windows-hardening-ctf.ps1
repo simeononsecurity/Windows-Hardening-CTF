@@ -22,6 +22,10 @@ Disable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2
 #https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/
 $ExecutionContext.SessionState.LanguageMode = "ConstrainedLanguage"
 
+#Enable PowerShell Terminal Logging
+#https://www.digitalshadows.com/blog-and-research/powershell-security-best-practices/
+Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\PowerShell\Transcription" -Name "OutputDirectory" -Type "STRING" -Value "C:\PowershellLogs" -Force
+
 #Disable LLMNR
 #https://www.blackhillsinfosec.com/how-to-disable-llmnr-why-you-want-to/
 New-Item -Path "HKLM:\Software\policies\Microsoft\Windows NT\" -Name "DNSClient"
