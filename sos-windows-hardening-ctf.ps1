@@ -44,6 +44,9 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Scr
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription\" -Name "EnableTranscripting" -Type "DWORD" -Value "1" -Force
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\PowerShell\Transcription\" -Name "EnableInvocationHeader" -Type "DWORD" -Value "1" -Force
 
+#Windows 10 Kernel (DMA) Protections
+Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\Kernel DMA Protection" -Name "DeviceEnumerationPolicy" -Type "DWORD" -Value "0" -Force
+
 #Disable LLMNR
 #https://www.blackhillsinfosec.com/how-to-disable-llmnr-why-you-want-to/
 New-Item -Path "HKLM:\Software\policies\Microsoft\Windows NT\" -Name "DNSClient"
