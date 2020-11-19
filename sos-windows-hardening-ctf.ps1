@@ -63,6 +63,15 @@ Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Par
 Set-SmbServerConfiguration -EnableSMB2Protocol $false
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" SMB2 -Type DWORD -Value 0 –Force
 
+#Enable SMB Encryption
+#https://docs.microsoft.com/en-us/windows-server/storage/file-server/smb-security
+Set-SmbServerConfiguration –EncryptData $true
+Set-SmbServerConfiguration –RejectUnencryptedAccess $false
+
+#Diable SMB Direct 
+#https://docs.microsoft.com/en-us/windows-server/storage/file-server/smb-direct
+Set-NetOffloadGlobalSetting -NetworkDirect Disabled
+
 #Bad Neighbor - CVE-2020-16898 
 #https://blog.rapid7.com/2020/10/14/there-goes-the-neighborhood-dealing-with-cve-2020-16898-a-k-a-bad-neighbor/
 netsh int ipv6 set int *INTERFACENUMBER* rabaseddnsconfig=disable
