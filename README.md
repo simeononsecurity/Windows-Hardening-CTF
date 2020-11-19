@@ -13,7 +13,7 @@ A windows hardening script that makes it difficult and more annoying to compromi
 - Enables AppLocker with NSA Recommended Policies
 - Enables Best practice Windows Logging and Security Controls
 - Enables DEP
-- Enables EMET and Fully Configures it (Pre Windows 10 and Server 2016)
+- Enables EMET and Fully Configures it (Only applys to systems with EMET installed)
 - Enables PowerShell Constrined Language Mode
 - Enables PowerShell Logging
 - Enables SMB Encryption
