@@ -7,6 +7,19 @@ Requires -RunAsAdministrator
 Write-Output "Elevating priviledges for this process"
 do {} until (Elevate-Privileges SeTakeOwnershipPrivilege)
 
+#Unblock all files required for script
+Get-ChildItem ./ -recurse | Unblock-File
+
+#Install PowerShell Modules
+Copy-Item -Path .\Files\"PowerShell Modules"\* -Destination C:\Windows\System32\WindowsPowerShell\v1.0\Modules -Force -Recurse
+#Unblock New PowerShell Modules
+Get-ChildItem C:\Windows\System32\WindowsPowerShell\v1.0\Modules\PSWindowsUpdate\ -recurse | Unblock-File
+#Install PSWindowsUpdate
+Import-Module -Name PSWindowsUpdate -Force -Global
+
+##Install Latest Windows Updates
+start-job -ScriptBlock {Install-WindowsUpdate -MicrosoftUpdate -AcceptAll; Get-WuInstall -AcceptAll -IgnoreReboot; Get-WuInstall -AcceptAll -Install -IgnoreReboot}
+
 #Disable CMD Interactive
 #reg add HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\System /v DisableCMD /t REG_DWORD /d 2 /f
 #Disable CMD Interactive and CMD Inline 
