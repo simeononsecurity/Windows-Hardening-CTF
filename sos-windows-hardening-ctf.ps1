@@ -48,6 +48,25 @@ Set-Service -Name "WinRM" -StartupType Disabled -Status Stopped
 #Disable Firewall Rule
 Disable-NetFirewallRule -DisplayName “Windows Remote Management (HTTP-In)”
 
+#Disable SMB Compression - CVE-2020-0796
+#https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2020-0796
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" DisableCompression -Type DWORD -Value 1 -Force
+
+#Disable SMB v1
+#https://docs.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3
+Disable-WindowsOptionalFeature -Online -FeatureName smb1protocol
+Set-SmbServerConfiguration -EnableSMB1Protocol $false
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" SMB1 -Type DWORD -Value 0 –Force
+
+#Disable SMB v2
+#https://docs.microsoft.com/en-us/windows-server/storage/file-server/troubleshoot/detect-enable-and-disable-smbv1-v2-v3
+Set-SmbServerConfiguration -EnableSMB2Protocol $false
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" SMB2 -Type DWORD -Value 0 –Force
+
+#Bad Neighbor - CVE-2020-16898 
+#https://blog.rapid7.com/2020/10/14/there-goes-the-neighborhood-dealing-with-cve-2020-16898-a-k-a-bad-neighbor/
+netsh int ipv6 set int *INTERFACENUMBER* rabaseddnsconfig=disable
+
 #####SPECTURE MELTDOWN#####
 #https://support.microsoft.com/en-us/help/4073119/protect-against-speculative-execution-side-channel-vulnerabilities-in
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" -Name FeatureSettingsOverride -Type DWORD -Value 72 -Force
