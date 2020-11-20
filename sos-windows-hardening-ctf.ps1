@@ -31,11 +31,6 @@ reg add "HKEY_CURRENT_USER\Software\Microsoft\Command Processor" /v AutoRun /t R
 #Disable Powershell v2
 Disable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2Root
 
-#Set PowerShell Constrained Language Mode
-#https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/
-$ExecutionContext.SessionState.LanguageMode = "ConstrainedLanguage"
-Set-Variable -Name "__PSLockdownPolicy" -Value "4"
-
 #Enable PowerShell Logging
 #https://www.digitalshadows.com/blog-and-research/powershell-security-best-practices/
 #https://www.cyber.gov.au/acsc/view-all-content/publications/securing-powershell-enterprise
@@ -239,6 +234,11 @@ Foreach ($gpocategory in Get-ChildItem "$(Get-Location)\Files\GPOs") {
         .\Files\LGPO\LGPO.exe /g $gpopath
     }
 }
+
+#Set PowerShell Constrained Language Mode
+#https://devblogs.microsoft.com/powershell/powershell-constrained-language-mode/
+$ExecutionContext.SessionState.LanguageMode = "ConstrainedLanguage"
+Set-Variable -Name "__PSLockdownPolicy" -Value "4"
 
 #Reboot prompt
 Add-Type -AssemblyName PresentationFramework
