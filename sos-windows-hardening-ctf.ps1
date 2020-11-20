@@ -208,11 +208,6 @@ Add-MpPreference -AttackSurfaceReductionRules_Ids 26190899-1602-49e8-8b27-eb1d0a
 Add-MpPreference -AttackSurfaceReductionRules_Ids 7674ba52-37eb-4a4f-a9a1-f0f9a1619a2c -AttackSurfaceReductionRules_Actions Enabled
 #Block persistence through WMI event subscription
 Add-MpPreference -AttackSurfaceReductionRules_Ids e6db77e5-3df2-4cf1-b95a-636979351e5b -AttackSurfaceReductionRules_Actions Enabled
-## Workaround for Windows 10 version 1703
-Write-Host "Set cloud block level to 'High'"
-SetRegistryKey -key MpCloudBlockLevel -value 2
-Write-Host "Set cloud block timeout to 1 minute"
-SetRegistryKey -key MpBafsExtendedTimeout -value 50
 
 #Disable TCP Timestamps
 netsh int tcp set global timestamps=disabled
