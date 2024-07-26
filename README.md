@@ -1,4 +1,7 @@
 # Windows-Hardening-CTF
+
+ [![Sponsor](https://img.shields.io/badge/Sponsor-Click%20Here-ff69b4)](https://github.com/sponsors/simeononsecurity) 
+
 A windows hardening script that makes it difficult and more annoying to compromise a Windows device.
 
 ## What does this script do?
